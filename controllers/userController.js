@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
 
 export function saveUser(req,res){
     const hashPassword = bcrypt.hashSync(req.body.password, 10);
@@ -57,8 +58,23 @@ export function loginUser(req,res){
             //if email correct then check the password
             const isPasswordCorrrect = bcrypt.compareSync(password, user.password);
             if(isPasswordCorrrect){
+
+                //jwt token
+                const userDetails ={
+                    email: user.email,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    role: user.role,
+                    phoneNumber: user.phoneNumber,
+                    isDisabled: user.isDisabled,
+                    isEmailVerified: user.isEmailVerified,
+                }
+
+                const token = jwt.sign(userDetails, "random456");
+
                 res.json({
-                    message: "login successful"
+                    message: "login successful",
+                    token: token
                 });
             }
             else{
