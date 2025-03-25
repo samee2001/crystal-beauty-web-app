@@ -59,7 +59,7 @@ export function loginUser(req,res){
             const isPasswordCorrrect = bcrypt.compareSync(password, user.password);
             if(isPasswordCorrrect){
 
-                //jwt token
+                //jwt token creation
                 const userDetails ={
                     email: user.email,
                     firstname: user.firstname,
@@ -70,7 +70,7 @@ export function loginUser(req,res){
                     isEmailVerified: user.isEmailVerified,
                 }
 
-                const token = jwt.sign(userDetails, "random456");
+                const token = jwt.sign(userDetails,"random123");
 
                 res.json({
                     message: "login successful",
