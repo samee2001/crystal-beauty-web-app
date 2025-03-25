@@ -1,7 +1,17 @@
 import ItemModel from "../models/itemModel.js";
 
+
 // Create a new item
 export function postItem(req, res) {
+    console.log(req.user);
+    if(req.user.role != "admin"){
+        console.log("You are not authorized to add item");
+        res.json({
+            message: "You are not authorized to add item",
+        });
+        return;
+    }
+    else{
     const item = new ItemModel(req.body);
     item.save()
         .then(() => {
@@ -15,7 +25,8 @@ export function postItem(req, res) {
                 message: "Error saving item",
                 error: err,
             });
-        });
+        }
+    );}
 }
 
 // Get all items
