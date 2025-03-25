@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import studentRouter from "./routes/studentRouter.js";
 import itemRouter from "./routes/itemRouter.js";
 import userRouter from "./routes/userRouter.js";
+import productRouter from "./routes/productRouter.js";
 import jwt, { decode } from "jsonwebtoken";
 import e from "express";
 
@@ -20,7 +21,7 @@ mongoose.connect("mongodb+srv://sameera:200102@cluster0.96uxn.mongodb.net/?retry
 //use bodyparser
 app.use(bodyParser.json());
 
-//middleware for jwt decode
+//middleware for jwt authorization
 
 app.use((req, res, next) => {
     const header = req.header("Authorization");
@@ -49,6 +50,8 @@ app.use("/api/students", studentRouter);
 app.use("/api/items", itemRouter);
 
 app.use("/api/users", userRouter);
+
+app.use("/api/products", productRouter);
 
 
 //start server

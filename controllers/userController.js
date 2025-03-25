@@ -50,7 +50,9 @@ export function loginUser(req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({ email: email }).then((user) => {
+    User.findOne(
+        { email: email }
+    ).then((user) => {
         if (!user) {
             return res.json({  // Using return to stop execution after the response is sent
                 message: "User not found, invalid email"

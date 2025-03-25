@@ -4,9 +4,9 @@ import ItemModel from "../models/itemModel.js";
 // Create a new item
 export function postItem(req, res) {
     console.log(req.user);
-    if(req.user.role != "admin"){
+    if(req.user.role != "admin"){  //AUTHORIZATION
         console.log("You are not authorized to add item");
-        res.json({
+        res.json({ 
             message: "You are not authorized to add item",
         });
         return;
