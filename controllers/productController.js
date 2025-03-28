@@ -54,3 +54,49 @@ export function getProducts(req,res){
         });
     });
 }
+
+export function deleteProduct(req,res){
+    if (req.user.role != "admin") {
+        res.json({
+            message: "You are not authorized to delete product",
+        });
+        return;
+    }
+    const productId = req.params.productId;
+    Product.findOneAndDelete(
+        { productId: productId }
+    ).then(() => {
+        res.json({
+            message: "Product deleted successfully",
+        });
+    }).catch((err) => {
+        res.json({
+            message: "Error deleting product",
+            error: err.message
+        });
+    });
+}
+
+
+export function updateProduct(req,res){
+    if (req.user.role != "admin") {
+        res.json({
+            message: "You are not authorized to update product",
+        });
+        return;
+    }
+    const productId = req.params.productId;
+    Product.findOneAndUpdate(
+        { productId: productId },
+        req.body
+    ).then(() => {
+        res.json({
+            message: "Product updated successfully",
+        });
+    }).catch((err) => {
+        res.json({
+            message: "Error updating product",
+            error: err.message
+        });
+    });
+}

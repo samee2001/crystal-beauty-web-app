@@ -3,6 +3,19 @@ import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
 export function saveUser(req, res) {
+    //check if user is an admin and logged in
+    if(req.body.role == "admin"){
+        if(req.user == null){
+            return res.json({
+                message: "You need to login first",
+            });
+        }
+        if (req.user.role != "admin") {
+            return res.json({
+                message: "You are not authorized to add user",
+            });
+        }
+    }
     const hashPassword = bcrypt.hashSync(req.body.password, 10);
     console.log(hashPassword);
     const user = new User({
@@ -10,6 +23,7 @@ export function saveUser(req, res) {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         password: hashPassword,
+        role: req.body.role,
     });
 
     user.save().then(() => {

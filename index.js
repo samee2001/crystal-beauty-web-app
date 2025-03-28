@@ -6,8 +6,8 @@ import studentRouter from "./routes/studentRouter.js";
 import itemRouter from "./routes/itemRouter.js";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
-import jwt, { decode } from "jsonwebtoken";
-import e from "express";
+import { authJWT } from "./middlewares/auth.js";
+import orderRouter from "./routes/orderRouter.js";
 
 const app = express();
 //connection with cluster
@@ -22,29 +22,9 @@ mongoose.connect("mongodb+srv://sameera:200102@cluster0.96uxn.mongodb.net/?retry
 app.use(bodyParser.json());
 
 //middleware for jwt authorization
+app.use(authJWT);
 
-app.use((req, res, next) => {
-    const header = req.header("Authorization");
-    //console.log(header); //print token
-    if(header != null){
-        const token = header.replace("Bearer ", "");
-        //console.log("original token:" + token);
-        jwt.verify(token ,"random123", (err, decoded)=>{
-            if (decoded!=null) {
-                req.user = decoded;
-            }
-            else{
-                res.json({
-                    message: "token not verified",
-                    error: err
-                });
-            }
-        });
-    }
- next();
-});
-
-
+//routes
 app.use("/api/students", studentRouter);
 
 app.use("/api/items", itemRouter);
@@ -52,6 +32,8 @@ app.use("/api/items", itemRouter);
 app.use("/api/users", userRouter);
 
 app.use("/api/products", productRouter);
+
+app.use("/api/orders", orderRouter);
 
 
 //start server
