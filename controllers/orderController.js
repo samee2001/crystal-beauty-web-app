@@ -71,19 +71,16 @@ export async function getOrder(req, res) {
     }
 
     return res.json({ data: userOrders });
-
   } catch (err) {
     // 4. දෝෂයක් ඇති වූ විට
     // 5. දෝෂය console එකට ලියා තැබීම
     console.error("Error retrieving orders:", err);
     return res.status(500).json({
       message: "Error retrieving orders",
-      error: err.message // Specific error message පමණක් යවන්න
+      error: err.message, // Specific error message පමණක් යවන්න
     });
   }
 }
-
-
 
 export async function deleteOrder(req, res) {
   try {
@@ -107,17 +104,15 @@ export async function deleteOrder(req, res) {
     if (!deletedOrder) {
       return res.status(404).json({ message: "Order not found" });
     }
-    
-    return res.json({ 
-      message: "Order deleted successfully",
-      data: deletedOrder 
-    });
 
+    return res.json({
+      message: "Order deleted successfully",
+      data: deletedOrder,
+    });
   } catch (err) {
     return res.status(500).json({
       message: "Error deleting order",
-      error: err.message
+      error: err.message,
     });
   }
 }
-

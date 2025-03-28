@@ -11,12 +11,16 @@ import orderRouter from "./routes/orderRouter.js";
 
 const app = express();
 //connection with cluster
-mongoose.connect("mongodb+srv://sameera:200102@cluster0.96uxn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then(()=>{
+mongoose
+  .connect(
+    "mongodb+srv://sameera:200102@cluster0.96uxn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => {
     console.log("connection successful to mongodb cluster");
-}).catch((err)=>{
+  })
+  .catch((err) => {
     console.log(err);
-})
-
+  });
 
 //use bodyparser
 app.use(bodyParser.json());
@@ -35,8 +39,7 @@ app.use("/api/products", productRouter);
 
 app.use("/api/orders", orderRouter);
 
-
 //start server
 app.listen(5000, () => {
-    console.log("Server is running.. 5000");
-}); 
+  console.log("Server is running.. 5000");
+});
